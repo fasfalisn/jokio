@@ -22,7 +22,7 @@ Before running this project, make sure you have the following installed:
 cd <repository-folder>
 ```
 
-2\. \*\*Add .env
+2\. **Add .env**
 
 3\. **Install dependencies**:
 
