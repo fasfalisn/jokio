@@ -16,7 +16,7 @@ const handleFavoriteChange = () => {
 </script>
 
 <template>
-  <section class="min-h-screen pt-16">
+  <section class="min-h-screen">
     <div class="mx-auto py-10 px-3">
       <h1 class="text-4xl text-teal-800 font-bold text-center mb-8">Collection</h1>
       <p class="text-center text-gray-600 mb-6">
