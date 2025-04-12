@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a Vue.js-based web app that alows users to discover jokes from an external API. Composition API has been used along with TailwindCSS. No state managemnt or router has been utilized.
+This is a Vue.js-based web app that alows users to discover jokes from an external API. Composition API has been used along with TailwindCSS. No state management or router has been utilized.
 
 # prerequisites
 
