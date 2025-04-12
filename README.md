@@ -22,13 +22,15 @@ Before running this project, make sure you have the following installed:
 cd <repository-folder>
 ```
 
-2\. **Install dependencies**:
+2\. \*\*Add .env
+
+3\. **Install dependencies**:
 
 ```bash
 npm install
 ```
 
-3\. **Run the development server**:
+4\. **Run the development server**:
 
 ```bash
 npm run dev
