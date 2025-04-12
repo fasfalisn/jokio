@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Card from '../discovery/card/Card.vue'
+import Card from '../card/Card.vue'
 
 const props = defineProps({
   favorites: {

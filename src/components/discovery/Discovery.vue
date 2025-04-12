@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Card from './card/Card.vue'
+import Card from '../card/Card.vue'
 import Toggle from './toggle/Toggle.vue'
 import IconSpinner from '../icons/IconSpinner.vue'
 
