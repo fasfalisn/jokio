@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import IconStarEmpty from '@/components/icons/IconStarEmpty.vue'
 import IconStarFill from '@/components/icons/IconStarFill.vue'
+import Rating from '../rating/Rating.vue'
 
 const props = defineProps({
   item: {
@@ -16,6 +17,13 @@ const props = defineProps({
 
 const revealed = ref<boolean>(false)
 const isFavorited = ref<boolean>(props.isFavorited)
+const rating = ref<number>(0)
+
+if (isFavorited.value && props.item.rating) {
+  rating.value = props.item.rating
+} else {
+  rating.value = 0
+}
 
 const togglePunchline = () => {
   revealed.value = !revealed.value
@@ -29,12 +37,22 @@ const toggleFavorite = () => {
   if (isFavorited.value) {
     favorites = favorites.filter((fav: any) => fav.id !== props.item.id)
   } else {
-    favorites.push(props.item)
+    favorites.push({ ...props.item, rating: rating.value })
   }
 
   localStorage.setItem('favorites', JSON.stringify(favorites))
 
   isFavorited.value = !isFavorited.value
+  emit('favoritesChanged')
+}
+
+const updateRating = (newRating: number) => {
+  rating.value = newRating
+  let favorites = JSON.parse(localStorage.getItem('favorites') || '[]')
+  favorites = favorites.map((fav: any) =>
+    fav.id === props.item.id ? { ...fav, rating: newRating } : fav,
+  )
+  localStorage.setItem('favorites', JSON.stringify(favorites))
   emit('favoritesChanged')
 }
 
@@ -58,6 +76,8 @@ watch(
       {{ item.punchline }}
     </p>
   </transition>
+
+  <Rating v-if="isFavorited" :value="rating" @update:rating="updateRating" />
 
   <button @click="togglePunchline()" class="mt-2 text-sm text-teal-700 font-medium hover:underline">
     {{ revealed ? 'Hide' : 'Show' }} Punchline

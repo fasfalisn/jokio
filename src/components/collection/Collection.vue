@@ -2,7 +2,6 @@
 import { ref, computed } from 'vue'
 import Card from '../card/Card.vue'
 import IconSearch from '../icons/IconSearch.vue'
-// import Search from './Search.vue'
 
 const props = defineProps({
   favorites: {
@@ -62,7 +61,3 @@ const filteredFavorites = computed(() => {
     </div>
   </section>
 </template>
-
-<style scoped>
-/* You can adjust styles for Collection page here */
-</style>
