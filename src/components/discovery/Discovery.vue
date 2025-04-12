@@ -1,0 +1,67 @@
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import Card from './card/Card.vue'
+import Toggle from './toggle/Toggle.vue'
+import IconSpinner from '../icons/IconSpinner.vue'
+
+const props = defineProps({
+  data: {
+    type: Array,
+    required: true,
+  },
+  toggle: {
+    type: String,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  error: {
+    type: String,
+    default: null,
+  },
+})
+
+const emit = defineEmits(['update:toggle', 'refetch'])
+
+const setToggle = (value: 'random' | 'programming') => {
+  emit('update:toggle', value)
+}
+
+const handleRefetch = () => {
+  emit('refetch')
+}
+</script>
+
+<template>
+  <section id="discovery" class="min-h-screen pt-16">
+    <div class="mx-auto py-10 px-3">
+      <h1 class="text-4xl text-teal-800 font-bold text-center mb-8">Discovery</h1>
+      <p class="text-center text-gray-600 mb-6">
+        Discover a collection of jokes that will make you laugh out loud!
+      </p>
+      <Toggle :toggle="toggle" @update:toggle="setToggle" />
+      <div v-if="loading">
+        <IconSpinner />
+      </div>
+      <div v-else-if="!loading && error">
+        <p>There was an error fetching the shows: {{ error }}</p>
+      </div>
+      <div v-else-if="!loading && !error">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div v-for="item in props.data" :key="item.id" class="bg-white p-6 rounded-lg shadow-sm">
+            <Card :item="item" />
+          </div>
+        </div>
+        <div class="flex align-middle justify-center md:justify-end mt-6">
+          <button
+            @click="handleRefetch"
+            class="mt-6 mr-6 px-4 py-2 bg-teal-800 text-white rounded hover:bg-teal-700"
+          >
+            New Jokes
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>

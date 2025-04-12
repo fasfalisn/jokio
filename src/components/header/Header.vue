@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const props = defineProps(['scrollTarget'])
-console.log(props.scrollTarget)
 </script>
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen">
