@@ -4,7 +4,6 @@ const model = defineModel<number>()
 
 <template>
   <div class="w-full max-w-xs">
-    <!-- <label for="ratingFilter" class="block text-sm text-gray-600 mb-1">Filter by rating:</label> -->
     <select
       id="ratingFilter"
       v-model="model"
