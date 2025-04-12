@@ -4,6 +4,7 @@ import Card from '../card/Card.vue'
 import Filters from './filters/Filters.vue'
 import Search from './search/Search.vue'
 import Sort from './sort/Sort.vue'
+import Stats from './stats/Stats.vue'
 
 const props = defineProps({
   favorites: {
@@ -75,6 +76,10 @@ const filteredFavorites = computed(() => {
         >
           <Card :item="item" :isFavorited="true" @favoritesChanged="handleFavoriteChange" />
         </div>
+      </div>
+
+      <div v-if="filteredFavorites.length > 0" class="mt-8">
+        <Stats :jokes="filteredFavorites" />
       </div>
     </div>
   </section>
