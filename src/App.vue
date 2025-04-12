@@ -6,12 +6,13 @@ import Discovery from './components/discovery/Discovery.vue'
 import { onMounted, ref, watch } from 'vue'
 import { fetchJokes } from './services/jokesService'
 import Collection from './components/collection/Collection.vue'
+import type { Joke } from './interfaces/Joke'
 
-const data = ref<any[]>([])
+const data = ref<Joke[]>([])
 const loading = ref<boolean>(true)
-const error = ref<string | null>(null)
+const error = ref<string | undefined>(undefined)
 const category = ref<'random' | 'programming'>('random')
-const favorites = ref<any[]>([])
+const favorites = ref<Joke[]>([])
 
 const loadData = async (category: 'random' | 'programming') => {
   loading.value = true
@@ -24,7 +25,7 @@ const loadData = async (category: 'random' | 'programming') => {
   const jokes = await response.json()
   data.value = jokes
   loading.value = false
-  error.value = null
+  error.value = undefined
 }
 
 const getFavorites = () => {

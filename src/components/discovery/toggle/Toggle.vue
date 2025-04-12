@@ -1,9 +1,7 @@
 <script setup lang="ts">
-const props = defineProps({
-  toggle: {
-    type: String,
-  },
-})
+const props = defineProps<{
+  toggle: 'programming' | 'random'
+}>()
 
 const emit = defineEmits(['update:toggle'])
 

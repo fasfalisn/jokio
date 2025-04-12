@@ -2,9 +2,9 @@
 import IconStarEmpty from '../icons/IconStarEmpty.vue'
 import IconStarFill from '../icons/IconStarFill.vue'
 
-const props = defineProps({
-  value: { type: Number },
-})
+const props = defineProps<{
+  value: number
+}>()
 
 const emit = defineEmits(['update:rating'])
 

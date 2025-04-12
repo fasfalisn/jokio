@@ -17,6 +17,7 @@ const sortOrderOptions = [
     <div class="w-1/2">
       <label class="block text-sm text-gray-600 mb-1">Sort by:</label>
       <select
+        v-if="model"
         v-model="model.sortBy"
         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-800"
       >
@@ -28,6 +29,7 @@ const sortOrderOptions = [
     <div class="w-1/2">
       <label class="block text-sm text-gray-600 mb-1">Order:</label>
       <select
+        v-if="model"
         v-model="model.sortOrder"
         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-800"
       >

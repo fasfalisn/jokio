@@ -5,13 +5,11 @@ import Filters from './filters/Filters.vue'
 import Search from './search/Search.vue'
 import Sort from './sort/Sort.vue'
 import Stats from './stats/Stats.vue'
+import type { Joke } from '@/interfaces/Joke'
 
-const props = defineProps({
-  favorites: {
-    type: Array,
-    required: true,
-  },
-})
+const props = defineProps<{
+  favorites: Joke[]
+}>()
 
 const searchText = ref('')
 const minRating = ref(0)

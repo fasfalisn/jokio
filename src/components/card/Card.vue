@@ -3,17 +3,12 @@ import { ref, watch } from 'vue'
 import IconStarEmpty from '@/components/icons/IconStarEmpty.vue'
 import IconStarFill from '@/components/icons/IconStarFill.vue'
 import Rating from '../rating/Rating.vue'
+import type { Joke } from '@/interfaces/Joke'
 
-const props = defineProps({
-  item: {
-    type: Object,
-    required: true,
-  },
-  isFavorited: {
-    type: Boolean,
-    default: false,
-  },
-})
+const props = defineProps<{
+  item: Joke
+  isFavorited: boolean
+}>()
 
 const revealed = ref<boolean>(false)
 const isFavorited = ref<boolean>(props.isFavorited)

@@ -2,28 +2,15 @@
 import Card from '../card/Card.vue'
 import Toggle from './toggle/Toggle.vue'
 import IconSpinner from '../icons/IconSpinner.vue'
+import type { Joke } from '@/interfaces/Joke'
 
-const props = defineProps({
-  data: {
-    type: Array,
-    required: true,
-  },
-  toggle: {
-    type: String,
-  },
-  loading: {
-    type: Boolean,
-    default: false,
-  },
-  error: {
-    type: String,
-    default: null,
-  },
-  favorites: {
-    type: Array,
-    default: () => [],
-  },
-})
+const props = defineProps<{
+  data: Joke[]
+  toggle: 'random' | 'programming'
+  loading: boolean
+  error: string | undefined
+  favorites: Joke[]
+}>()
 
 const emit = defineEmits(['update:toggle', 'refetch', 'favoritesChanged'])
 
