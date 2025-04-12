@@ -6,8 +6,6 @@ const props = defineProps({
   value: { type: Number },
 })
 
-console.log('Card props:', props)
-
 const emit = defineEmits(['update:rating'])
 
 const setRating = (val: number) => {
