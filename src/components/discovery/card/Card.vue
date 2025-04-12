@@ -1,22 +1,58 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import IconStarEmpty from '@/components/icons/IconStarEmpty.vue'
+import IconStarFill from '@/components/icons/IconStarFill.vue'
 
 const props = defineProps({
   item: {
     type: Object,
     required: true,
   },
+  isFavorited: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const revealed = ref<boolean>(false)
+const isFavorited = ref<boolean>(props.isFavorited)
 
 const togglePunchline = () => {
   revealed.value = !revealed.value
 }
+
+const emit = defineEmits(['favoritesChanged'])
+
+const toggleFavorite = () => {
+  let favorites = JSON.parse(localStorage.getItem('favorites') || '[]')
+
+  if (isFavorited.value) {
+    favorites = favorites.filter((fav: any) => fav.id !== props.item.id)
+  } else {
+    favorites.push(props.item)
+  }
+
+  localStorage.setItem('favorites', JSON.stringify(favorites))
+
+  isFavorited.value = !isFavorited.value
+  emit('favoritesChanged')
+}
+
+watch(
+  () => props.isFavorited,
+  (newVal) => {
+    isFavorited.value = newVal
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
   <h2 class="text-xl font-semibold mb-2">{{ item.setup }}</h2>
+  <button @click="toggleFavorite" class="absolute top-2 right-2" aria-label="Toggle Favorite">
+    <IconStarFill v-if="isFavorited" class="text-yellow-500" />
+    <IconStarEmpty v-else class="text-gray-400" />
+  </button>
   <transition name="fade">
     <p v-if="revealed" class="text-gray-700 mb-2">
       {{ item.punchline }}

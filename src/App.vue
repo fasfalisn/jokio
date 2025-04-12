@@ -5,11 +5,13 @@ import Header from './components/header/Header.vue'
 import Discovery from './components/discovery/Discovery.vue'
 import { onMounted, ref, watch } from 'vue'
 import { fetchJokes } from './services/jokesService'
+import Collection from './components/collection/Collection.vue'
 
 const data = ref<any[]>([])
 const loading = ref<boolean>(true)
 const error = ref<string | null>(null)
 const category = ref<'random' | 'programming'>('random')
+const favorites = ref<any[]>([])
 
 const loadData = async (category: 'random' | 'programming') => {
   loading.value = true
@@ -25,8 +27,13 @@ const loadData = async (category: 'random' | 'programming') => {
   error.value = null
 }
 
+const getFavorites = () => {
+  favorites.value = JSON.parse(localStorage.getItem('favorites') || '[]')
+}
+
 onMounted(() => {
   loadData(category.value)
+  getFavorites()
 })
 
 watch(category, (newValue) => {
@@ -41,10 +48,14 @@ watch(category, (newValue) => {
     <Discovery
       :data="data"
       v-model:toggle="category"
-      @refetch="loadData(category)"
       :loading="loading"
       :error="error"
+      :favorites="favorites"
+      @refetch="loadData(category)"
+      @favoritesChanged="getFavorites"
     />
+    <div class="h-0.5 w-3/4 mx-auto bg-teal-800" />
+    <Collection :favorites="favorites" @favoritesChanged="getFavorites" />
   </main>
   <Footer />
 </template>

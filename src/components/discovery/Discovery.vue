@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
 import Card from './card/Card.vue'
 import Toggle from './toggle/Toggle.vue'
 import IconSpinner from '../icons/IconSpinner.vue'
@@ -20,9 +19,13 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  favorites: {
+    type: Array,
+    default: () => [],
+  },
 })
 
-const emit = defineEmits(['update:toggle', 'refetch'])
+const emit = defineEmits(['update:toggle', 'refetch', 'favoritesChanged'])
 
 const setToggle = (value: 'random' | 'programming') => {
   emit('update:toggle', value)
@@ -30,6 +33,14 @@ const setToggle = (value: 'random' | 'programming') => {
 
 const handleRefetch = () => {
   emit('refetch')
+}
+
+const checkIfFavorited = (itemId: number) => {
+  return props.favorites.some((fav: any) => fav.id === itemId)
+}
+
+const handleFavoriteChange = () => {
+  emit('favoritesChanged')
 }
 </script>
 
@@ -49,8 +60,16 @@ const handleRefetch = () => {
       </div>
       <div v-else-if="!loading && !error">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div v-for="item in props.data" :key="item.id" class="bg-white p-6 rounded-lg shadow-sm">
-            <Card :item="item" />
+          <div
+            v-for="item in props.data"
+            :key="item.id"
+            class="bg-white p-6 rounded-lg shadow-sm relative"
+          >
+            <Card
+              :item="item"
+              :isFavorited="checkIfFavorited(item.id)"
+              @favoritesChanged="handleFavoriteChange"
+            />
           </div>
         </div>
         <div class="flex align-middle justify-center md:justify-end mt-6">
