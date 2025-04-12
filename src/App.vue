@@ -1,5 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Navbar from './components/navbar/Navbar.vue'
+</script>
 
 <template>
-  <h1>Jokio</h1>
+  <Navbar />
 </template>
