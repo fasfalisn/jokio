@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import Card from '../card/Card.vue'
 import Filters from './filters/Filters.vue'
 import Search from './search/Search.vue'
+import Sort from './sort/Sort.vue'
 
 const props = defineProps({
   favorites: {
@@ -13,6 +14,10 @@ const props = defineProps({
 
 const searchText = ref('')
 const minRating = ref(0)
+const sortSettings = ref({
+  sortBy: 'alphabetical',
+  sortOrder: 'asc',
+})
 
 const emit = defineEmits(['favoritesChanged'])
 
@@ -22,10 +27,25 @@ const handleFavoriteChange = () => {
 
 const filteredFavorites = computed(() => {
   const query = searchText.value.toLowerCase()
-  return props.favorites.filter((item: any) => {
+
+  const filtered = props.favorites.filter((item: any) => {
     const matchesSearch = item.setup.toLowerCase().includes(query)
     const matchesRating = (item.rating || 0) >= minRating.value
     return matchesSearch && matchesRating
+  })
+
+  return filtered.sort((a: any, b: any) => {
+    const { sortBy, sortOrder } = sortSettings.value
+
+    let compareVal = 0
+
+    if (sortBy === 'alphabetical') {
+      compareVal = a.setup.localeCompare(b.setup)
+    } else if (sortBy === 'rating') {
+      compareVal = (a.rating || 0) - (b.rating || 0)
+    }
+
+    return sortOrder === 'asc' ? compareVal : -compareVal
   })
 })
 </script>
@@ -40,6 +60,7 @@ const filteredFavorites = computed(() => {
       <div class="flex flex-col items-center justify-between gap-4 mt-4 mb-6">
         <Search v-model="searchText" />
         <Filters v-model="minRating" />
+        <Sort v-model="sortSettings" />
       </div>
 
       <div v-if="filteredFavorites.length === 0" class="text-center text-gray-600">
