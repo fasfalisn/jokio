@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import Card from '../card/Card.vue'
-import IconSearch from '../icons/IconSearch.vue'
+import Filters from './filters/Filters.vue'
+import Search from './search/Search.vue'
 
 const props = defineProps({
   favorites: {
@@ -11,6 +12,7 @@ const props = defineProps({
 })
 
 const searchText = ref('')
+const minRating = ref(0)
 
 const emit = defineEmits(['favoritesChanged'])
 
@@ -20,7 +22,11 @@ const handleFavoriteChange = () => {
 
 const filteredFavorites = computed(() => {
   const query = searchText.value.toLowerCase()
-  return props.favorites.filter((item: any) => item.setup.toLowerCase().includes(query))
+  return props.favorites.filter((item: any) => {
+    const matchesSearch = item.setup.toLowerCase().includes(query)
+    const matchesRating = (item.rating || 0) >= minRating.value
+    return matchesSearch && matchesRating
+  })
 })
 </script>
 
@@ -31,18 +37,9 @@ const filteredFavorites = computed(() => {
       <p class="text-center text-gray-600 mb-6">
         Your favorite jokes are here! You can add them to your collection and view them later.
       </p>
-      <div class="flex items-center justify-center mt-4 mb-6">
-        <div class="relative w-full max-w-md">
-          <input
-            type="text"
-            v-model="searchText"
-            placeholder="Search for a joke..."
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-800"
-          />
-          <button class="absolute right-0 top-0 mt-2 mr-2 text-teal-800 hover:text-teal-700">
-            <IconSearch />
-          </button>
-        </div>
+      <div class="flex flex-col items-center justify-between gap-4 mt-4 mb-6">
+        <Search v-model="searchText" />
+        <Filters v-model="minRating" />
       </div>
 
       <div v-if="filteredFavorites.length === 0" class="text-center text-gray-600">
